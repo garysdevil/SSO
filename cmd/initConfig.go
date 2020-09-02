@@ -11,7 +11,7 @@ type Config struct {
 	Name string
 }
 
-// InitConfig 传入配置文件路径
+// InitConfig (配置文件路径)
 func InitConfig(cfg string) error {
 	//fsnotify.NewWatcher()
 
@@ -47,6 +47,7 @@ func (c *Config) readConfig() error {
 	if err := viper.ReadInConfig(); err != nil { // viper解析配置文件
 		return err
 	}
+	log.Println("Init config file successfully")
 	return nil
 }
 
@@ -54,6 +55,6 @@ func (c *Config) readConfig() error {
 func (c *Config) watchConfig() {
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
-		log.Println("Config file changed: %s", e.Name)
+		log.Printf("Config file changed: %s", e.Name)
 	})
 }

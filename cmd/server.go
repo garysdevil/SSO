@@ -13,7 +13,6 @@ func Execute() {
 	if err := InitConfig(""); err != nil {
 		panic(err)
 	}
-	InitConfig("")
 
 	// gin.SetMode(gin.ReleaseMode)
 	server := gin.New()
