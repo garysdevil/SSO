@@ -18,13 +18,13 @@ func (user User) GetTokenInfo() (TokenInfo, error) {
 
 	var roles []Role
 
-	err := DB.Model(&user).Related(&user, "Roles").Error
+	err := DB.Model(&user).Association("Roles").Find(&user, "Roles")
 
-	tokenInfo.UserID = user.UserId
+	tokenInfo.UserID = user.UserID
 	tokenInfo.Username = user.Username
 
 	for index := range roles {
-		tokenInfo.RoleIDs[index] = roles[index].RoleId
+		tokenInfo.RoleIDs[index] = roles[index].RoleID
 	}
 
 	data, err := json.Marshal(user)
