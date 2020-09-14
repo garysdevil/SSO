@@ -6,5 +6,9 @@ import (
 )
 
 func serviceTest() {
-	service.InsertUserFromLdap(model.User{})
+	// 角色
+	role := model.Role{
+		RoleName: "aaa",
+	}
+	service.CreateRole(role)
 }

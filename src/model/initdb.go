@@ -22,7 +22,6 @@ func OpenDb(username, password, addr, dbname string) *gorm.DB {
 		log.Error(err, ",Database connection failed. Database name: ", dbname)
 		panic(err)
 	}
-	// db
 	// db.LogMode(true)
 	log.Info("Database:" + dbname + " connected")
 

@@ -14,12 +14,12 @@ package service
 // 	if err == nil {
 // 		token, err := utils.JwtEncode(user.Username, user.Roles)
 // 		if err != nil {
-// 			log.Error(err)
+// 			// log.Error(err)
 // 			return "", user, err
 // 		}
 // 		u, menus, err := user.FindUser()
 // 		if err != nil {
-// 			log.Error(err)
+// 			// log.Error(err)
 // 			return "", user, err
 // 		}
 // 		if u == nil {

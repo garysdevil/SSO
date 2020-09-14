@@ -13,8 +13,8 @@ func modelTest() {
 	// test4V2Batch()
 	// test3V2AutoMigrate()
 
-	test2FirstUser()
-	// test1CreateTable()
+	// test2FirstUser()
+	test1CreateTable()
 
 	fmt.Println("\nEnd modelTest()")
 }
@@ -71,13 +71,14 @@ func test2FirstUser() {
 
 func test1CreateTable() {
 
-	model.DB.Debug().AutoMigrate(&model.System{})
+	model.DB.AutoMigrate(&model.System{})
 	model.DB.AutoMigrate(&model.API{}) //AddForeignKey("system_id", "systems(system_id)", "SET NULL", "CASCADE")  v1
 	model.DB.AutoMigrate(&model.Menu{})
 
 	model.DB.AutoMigrate(&model.Role{})
 	model.DB.AutoMigrate(&model.User{})
+	model.DB.AutoMigrate(&model.Group{})
 
-	//model.DB.Migrator().DropTable(&model.System{}, &model.API{}, &model.Menu{}, &model.Role{}, &model.User{}, "role_api", "role_menu", "user_group")
+	// model.DB.Migrator().DropTable(&model.System{}, &model.API{}, &model.Menu{}, &model.Role{}, &model.User{}, &model.Group{}, "role_apis", "role_menus", "user_groups", "group_roles")
 
 }

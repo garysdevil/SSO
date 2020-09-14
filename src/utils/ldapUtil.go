@@ -16,26 +16,23 @@ type LdapConf struct {
 	Domain   string `json:"domain"`
 }
 
-
 var ldapConf LdapConf
+
 func _LdapConn() (*ldap.Conn, error) {
 	ldapConf = LdapConf{
-	Server:   viper.GetString("ldap.server"),
-	Port:     viper.GetInt("ldap.port"),
-	BaseDN:   viper.GetString("ldap.baseDN"),
-	Username: viper.GetString("ldap.username"),
-	Password: viper.GetString("ldap.password"),
-	Domain:   viper.GetString("ldap.domain"),
+		Server:   viper.GetString("ldap.server"),
+		Port:     viper.GetInt("ldap.port"),
+		BaseDN:   viper.GetString("ldap.baseDN"),
+		Username: viper.GetString("ldap.username"),
+		Password: viper.GetString("ldap.password"),
+		Domain:   viper.GetString("ldap.domain"),
 	}
 	// 连接
-	fmt.Println("==")
-	fmt.Println(viper.GetString("ldap.server"))
-	fmt.Println("==")
 	l, err := ldap.Dial("tcp", fmt.Sprintf("%s:%d", ldapConf.Server, ldapConf.Port))
 	if err != nil {
 		return nil, err
 	}
-	
+
 	// 绑定管理员用户
 	err = l.Bind(ldapConf.Username, ldapConf.Password)
 	if err != nil {
@@ -43,6 +40,7 @@ func _LdapConn() (*ldap.Conn, error) {
 	}
 	return l, nil
 }
+
 // LdapValid 验证用户账户密码
 func LdapValid(username, password string) error {
 	// return _LdapValid(username, password, viper.GetString("ldap.domain"))
@@ -55,7 +53,7 @@ func _LdapValid(username, password, domain string) error {
 	// 验证用户
 	controls := []ldap.Control{}
 	controls = append(controls, ldap.NewControlBeheraPasswordPolicy())
-	bindRequest := ldap.NewSimpleBindRequest(username + domain, password, controls)
+	bindRequest := ldap.NewSimpleBindRequest(username+domain, password, controls)
 
 	r, err := l.SimpleBind(bindRequest)
 	if err != nil {
@@ -79,6 +77,7 @@ func _LdapValid(username, password, domain string) error {
 	}
 	return nil
 }
+
 // LdapGetAllUser 获取ldap里面所有的用户名
 func LdapGetAllUser() ([]string, error) {
 	l, err := _LdapConn()
@@ -105,8 +104,7 @@ func LdapGetAllUser() ([]string, error) {
 	ldapUsers := make([]string, length)
 	for i, entry := range sr.Entries {
 		ldapUsers[i] = entry.GetAttributeValue("cn")
-		// fmt.Printf("%s: %v\n", entry.DN, entry.GetAttributeValue("cn"))
+		// fmt.Printf("%s:=== %v\n", entry.DN, entry.GetAttributeValue("cn"))
 	}
-	fmt.Println(cap(ldapUsers))
 	return ldapUsers, nil
 }

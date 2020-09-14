@@ -9,6 +9,17 @@ func (user *User) CreateUsers(users *[]User) error {
 	return DB.Create(&users).Error
 }
 
+func (user *User) DeleteUser() error {
+	//先清引用
+	// DB.Model(&user).Association("Roles").Clear()
+	return DB.Where("user_id = ?", user.UserID).Delete(&user).Error
+}
+
+// 临时方法
+// func (user *User) DeleteAllUser() error {
+// 	return DB.Unscoped().("created_by = 0").Delete(&user).Error
+// }
+
 // func (user *User) CreateUsers(users []User) error {
 // 	for use := range users {
 // 		return DB.Create(&use).Error

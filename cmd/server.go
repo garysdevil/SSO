@@ -3,6 +3,7 @@ package cmd
 import (
 	"sso/src/middleware"
 	"sso/src/router"
+	"sso/src/model"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -13,6 +14,7 @@ func Execute() {
 	if err := InitConfig(""); err != nil {
 		panic(err)
 	}
+	model.InitDB()
 
 	// gin.SetMode(gin.ReleaseMode)
 	server := gin.New()

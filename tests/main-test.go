@@ -12,12 +12,9 @@ func main() {
 	// fmt.Println("beginTime: " + beginTime.Format("2006-01-02 3:04:05.000 PM Mon Jan"))
 	fmt.Println("beginTime: " + beginTime.Format("2006年01月02日 15点04分05秒"))
 	fmt.Println()
-	if err := cmd.InitConfig("../config/settings.dev.yaml"); err != nil {
-		panic(err)
-	}
-	model.InitDB()
 
-	test()
+	// personTest()
+	projectTest()
 
 	endTime := time.Now()
 	fmt.Println()
@@ -25,8 +22,17 @@ func main() {
 	fmt.Println("Spending time: " + endTime.Sub(beginTime).String())
 }
 
-func test() {
+func projectTest() {
+	if err := cmd.InitConfig("../config/settings.dev.yaml"); err != nil {
+		panic(err)
+	}
+	model.InitDB()
+
 	// modelTest()
 	// utilsTest()
 	serviceTest()
+}
+
+func personTest() {
+
 }

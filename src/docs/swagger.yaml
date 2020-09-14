@@ -1,0 +1,41 @@
+definitions:
+  handler.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      message:
+        type: string
+    type: object
+  model.Role:
+    properties:
+      roleName:
+        type: string
+    type: object
+info:
+  contact: {}
+  license: {}
+paths:
+  /sso/role/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: create
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"data":{},"msg":"success"}'
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 创建角色接口
+      tags:
+      - 角色管理
+swagger: "2.0"
