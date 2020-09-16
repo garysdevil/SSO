@@ -13,6 +13,7 @@ func Router(router *gin.Engine) {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.POST("/sso/login", handler.LoginHandler)
+	router.POST("/sso/check", handler.CheckJwtHandler)
 	// router.GET("/sso/logout", handler.LogoutHandler)
 	// router.GET("/sso/freshtoken", handler.RefreshTokenHandler)
 

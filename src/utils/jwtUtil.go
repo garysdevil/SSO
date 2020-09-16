@@ -10,8 +10,8 @@ import (
 
 type TokenClaims struct {
 	jwt.StandardClaims
-	Username  string `json:"username"`
-	RoleIDArr []string  `json:"roleid"`
+	Username  string   `json:"username"`
+	RoleIDArr []string `json:"roleid"`
 }
 
 // JwtEncode (用户，角色，有效期是多久分钟，密钥) 返回 token
@@ -36,6 +36,7 @@ func JwtEncode(username string, roleidarr []string) (string, error) {
 
 // JwtDecode （密钥，token）返回用户名
 func JwtDecode(secret string, tokenString string) (string, error) {
+
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
@@ -52,5 +53,7 @@ func JwtDecode(secret string, tokenString string) (string, error) {
 	//existTime :=(int64(token.Claims.(jwt.MapClaims)["exp"].(float64))-time.Now().Unix())/60
 	user := token.Claims.(jwt.MapClaims)["username"]
 	//fmt.Println(existTime)
+
+	fmt.Println("token 验证通过")
 	return user.(string), nil
 }

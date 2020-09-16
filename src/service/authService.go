@@ -3,20 +3,18 @@ package service
 import (
 	// "github.com/rs/xid"
 
-	"fmt"
 	"sso/src/model"
 	"sso/src/utils"
+
+	"github.com/spf13/viper"
 )
 
 func LoginService(user model.User) (string, error) {
-	fmt.Println("===========1")
 	err := utils.LdapValid(user.Username, user.Password)
-	fmt.Println("===========11")
 	if err != nil {
 		// log.Error(err)
 		return "", err
 	}
-	fmt.Println("===========2")
 	roles, err := user.GetRolesByUser(user)
 	if err != nil {
 		return "", err
@@ -25,28 +23,28 @@ func LoginService(user model.User) (string, error) {
 	for i, role := range roles {
 		roleidarr[i] = role.RoleID
 	}
-	fmt.Println("===========3")
 	token, err := utils.JwtEncode(user.Username, roleidarr)
 	return token, err
 
 }
 
-// /*
-// 验证接口可以不用,现在验证放在客户端
-// */
-// //func CheckJwtService(token string) bool {
-// //	secret,err :=utils.RedisClient().Get(token).Result()
-// //	if err !=nil{
-// //		fmt.Println(err)
-// //		panic(err)
-// //	}
-// //	result,_ :=utils.JwtDecode(token,secret)
-// //	//判断过期时间
-// //	//if result && existTime<viper.GetInt64("token.expireTime")-viper.GetInt64("token.refreshTime") {
-// //	//	return result,true
-// //	//}
-// //	return result
-// //}
+// 验证token是否过期
+func CheckJwtService(token string) (bool, error) {
+	// secret,err :=utils.RedisClient().Get(token).Result()
+	// if err !=nil{
+	// 	fmt.Println(err)
+	// 	panic(err)
+	// }
+	username, err := utils.JwtDecode(viper.GetString("token.secret"), token)
+	//判断过期时间
+	//if result && existTime<viper.GetInt64("token.expireTime")-viper.GetInt64("token.refreshTime") {
+	//	return result,true
+	//}
+	if username != "" {
+		return true, nil
+	}
+	return false, err
+}
 
 // func LogoutService(token string) error {
 // 	result := utils.RedisClient().Del(token)

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"sso/src/handler/exception"
 	"sso/src/model"
 	"sso/src/service"
@@ -42,19 +43,40 @@ func LoginHandler(c *gin.Context) {
 	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, data)
 }
 
-// func CheckJwtHandler(c *gin.Context)  {
-// 	token := c.Query("jwt")
-// 	result :=service.CheckJwtService(token)
-// 	if result {
-// 		//newToken,err :=service.RefreshToken(token)
-// 		//if err!=nil{
-// 		//	panic(err)
-// 		//}
-// 		//c.SetCookie("token",newToken,0,"/","wx.bc",false,true)
-// 		c.String(http.StatusOK,"true")
-// 	}
-// 	//c.String(http.StatusOK,"true")
-// }
+// @Summary 验证token接口
+// @Tags 登陆管理
+// @Accept  json
+// @Produce  json
+// @Param user body exception.Token true "token"
+// @Success 200 {object} Response "{"code":0,"data":{},"msg":"success"}"
+// @Router /sso/check [post]
+func CheckJwtHandler(c *gin.Context) {
+	var token exception.Token
+	err := c.Bind(&token)
+	if err != nil {
+		log.Info("绑定结构体错误：" + err.Error())
+
+		SendResponse(c, exception.CustomCode{Code: exception.LoginError.Code,
+			Message: exception.LoginError.Message}, err.Error())
+		return
+	}
+	fmt.Println(token.Token + "---------")
+	flag, err := service.CheckJwtService(token.Token)
+	if err != nil {
+		log.Info(err)
+	}
+	data := map[string]bool{"flag": flag}
+	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, data)
+	// if flag {
+	// 	//newToken,err :=service.RefreshToken(token)
+	// 	//if err!=nil{
+	// 	//	panic(err)
+	// 	//}
+	// 	//c.SetCookie("token",newToken,0,"/","wx.bc",false,true)
+	// 	c.String(http.StatusOK, "true")
+	// }
+	//c.String(http.StatusOK,"true")
+}
 
 // // @Summary 登出接口
 // // @Tags 登陆管理

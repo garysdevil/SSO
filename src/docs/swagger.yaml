@@ -6,6 +6,11 @@ definitions:
       username:
         type: string
     type: object
+  exception.Token:
+    properties:
+      token:
+        type: string
+    type: object
   handler.Response:
     properties:
       code:
@@ -48,6 +53,27 @@ info:
   contact: {}
   license: {}
 paths:
+  /sso/check:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/exception.Token'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"data":{},"msg":"success"}'
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 验证token接口
+      tags:
+      - 登陆管理
   /sso/group/create:
     post:
       consumes:
