@@ -11,10 +11,18 @@ import (
 type TokenClaims struct {
 	jwt.StandardClaims
 	Username  string `json:"username"`
-	RoleIDArr []int  `json:"roleid"`
+	RoleIDArr []string  `json:"roleid"`
 }
 
-func JwtEncode(username string, roleidarr []int) (string, error) {
+// JwtEncode (用户，角色，有效期是多久分钟，密钥) 返回 token
+func _JwtEncode(claims TokenClaims, secret string) (string, error) {
+
+	token, error := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(secret))
+	return token, error
+}
+
+// JwtEncode (用户，角色) 返回 token
+func JwtEncode(username string, roleidarr []string) (string, error) {
 	validTime := viper.GetInt64("token.expireTime")
 	secret := viper.GetString("token.secret")
 	claims := TokenClaims{
@@ -24,13 +32,6 @@ func JwtEncode(username string, roleidarr []int) (string, error) {
 	claims.IssuedAt = time.Now().Unix()
 	claims.ExpiresAt = time.Now().Add(time.Minute * time.Duration(validTime)).Unix()
 	return _JwtEncode(claims, secret)
-}
-
-// JwtEncode (用户，角色，有效期是多久分钟，密钥) 返回 token
-func _JwtEncode(claims TokenClaims, secret string) (string, error) {
-
-	token, error := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(secret))
-	return token, error
 }
 
 // JwtDecode （密钥，token）返回用户名

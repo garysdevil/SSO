@@ -24,6 +24,7 @@ require (
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.5.1
 	github.com/tebeka/strftime v0.1.5 // indirect
+	google.golang.org/protobuf v1.25.0
 	gorm.io/driver/mysql v1.0.1
 	gorm.io/gorm v1.20.0
 )

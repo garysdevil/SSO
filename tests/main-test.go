@@ -28,11 +28,13 @@ func projectTest() {
 	}
 	model.InitDB()
 
-	// modelTest()
+	modelTest()
 	// utilsTest()
-	serviceTest()
+	// serviceTest()
 }
 
 func personTest() {
-
+	// a := map[string]string{"a":"a1"}
+	// b := map[string]string{"a": "a1", "b": "b1"}
+	// fmt.Println(Contain("a1", b))
 }

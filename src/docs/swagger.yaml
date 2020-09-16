@@ -1,4 +1,11 @@
 definitions:
+  exception.LoginUser:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
   handler.Response:
     properties:
       code:
@@ -8,15 +15,81 @@ definitions:
       message:
         type: string
     type: object
+  model.Group:
+    properties:
+      name:
+        type: string
+      user_group:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+    type: object
   model.Role:
     properties:
       roleName:
+        type: string
+    type: object
+  model.User:
+    properties:
+      comment:
+        type: string
+      created_by:
+        type: integer
+      password:
+        type: string
+      user_group:
+        items:
+          $ref: '#/definitions/model.Group'
+        type: array
+      username:
         type: string
     type: object
 info:
   contact: {}
   license: {}
 paths:
+  /sso/group/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: create
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.Group'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"data":{},"msg":"success"}'
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 创建用户组组接口
+      tags:
+      - 用户组组管理
+  /sso/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: login
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/exception.LoginUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"data":{},"msg":"success"}'
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 登陆接口
+      tags:
+      - 登陆管理
   /sso/role/create:
     post:
       consumes:

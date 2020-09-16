@@ -42,9 +42,10 @@ type Role struct {
 
 type Group struct {
 	CommonModel
-	GroupID   string `json:"group_id" gorm:"column:group_id;primary_key;type:varchar(255)"`
+	GroupID   string `json:"group_id" gorm:"column:group_id;primary_key;type:varchar(255)"  swaggerignore:"true"`
 	Groupname string `json:"name" gorm:"column:groupname"`
-	Role      []Role `json:"group_role" gorm:"many2many:group_role;JOINTABLE_FOREIGNKEY:group_id;ASSOCIATION_JOINTABLE_FOREIGNKEY:role_id"`
+	Roles     []Role `json:"group_role" gorm:"many2many:group_role;JOINTABLE_FOREIGNKEY:group_id;ASSOCIATION_JOINTABLE_FOREIGNKEY:role_id" swaggerignore:"true"`
+	Users     []User `json:"user_group" gorm:"many2many:user_group;JOINTABLE_FOREIGNKEY:user_id;ASSOCIATION_JOINTABLE_FOREIGNKEY:group_id"`
 }
 
 type User struct {
@@ -54,6 +55,6 @@ type User struct {
 	Username  string  `json:"username" gorm:"column:username"`
 	Password  string  `json:"password" gorm:"column:password"`
 	CreatedBy uint    `json:"created_by" gorm:"column:created_by"`
-	Group     []Group `json:"user_group" gorm:"many2many:user_group;JOINTABLE_FOREIGNKEY:user_id;ASSOCIATION_JOINTABLE_FOREIGNKEY:group_id"`
+	Groups    []Group `json:"user_group" gorm:"many2many:user_group;JOINTABLE_FOREIGNKEY:user_id;ASSOCIATION_JOINTABLE_FOREIGNKEY:group_id"`
 	Roles     []Role  `json:"-" gorm:"-"`
 }

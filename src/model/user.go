@@ -9,11 +9,39 @@ func (user *User) CreateUsers(users *[]User) error {
 	return DB.Create(&users).Error
 }
 
-func (user *User) DeleteUser() error {
-	//先清引用
-	// DB.Model(&user).Association("Roles").Clear()
-	return DB.Where("user_id = ?", user.UserID).Delete(&user).Error
+func (user *User) ListUser(pageNo, pageSize int) ([]User, int64) {
+	var count int64
+	DB.Model(&user).Count(&count)
+	var userList []User
+	DB.Model(&user).Offset((pageNo - 1) * pageSize).Limit(pageSize).Find(&userList)
+
+	return userList, count
 }
+
+func (u *User) GetRolesByUser(user User) (roles []Role, err error) {
+
+	groups := []Group{}
+	err = DB.Debug().Model(&user).Association("Groups").Find(&groups)
+	if err != nil {
+		return
+	}
+	err = DB.Debug().Model(&groups).Association("Roles").Find(&roles)
+	return
+}
+// func (user *User) ListAllUserBy(created_by string) ([]User, int64) {
+// 	var count int64
+// 	DB.Model(&user).Where("created_by = ?", created_by).(&count)
+// 	var userList []User
+// 	DB.Model(&user).Where("created_by = ?", created_by).Find(&userList)
+
+// 	return userList, count
+// }
+
+// func (user *User) DeleteUser() error {
+// 	//先清引用
+// 	// DB.Model(&user).Association("Roles").Clear()
+// 	return DB.Where("user_id = ?", user.UserID).Delete(&user).Error
+// }
 
 // 临时方法
 // func (user *User) DeleteAllUser() error {
@@ -57,15 +85,6 @@ func (user *User) DeleteUser() error {
 // 		return &u, nil, err
 // 	}
 // 	return &u, menus, db.Error
-// }
-
-// func (user *User) ListUser(pageNo, pageSize int) ([]User, int32) {
-// 	var count int32
-// 	DB.Model(&user).Count(&count)
-// 	var userList []User
-// 	DB.Model(&user).Offset((pageNo - 1) * pageSize).Limit(pageSize).Find(&userList)
-
-// 	return userList, count
 // }
 
 // //用户角色关联（这块代码需要改进）

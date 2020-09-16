@@ -1,65 +1,35 @@
 package service
 
-// import (
-// 	"github.com/rs/xid"
-// 	log "github.com/sirupsen/logrus"
+import (
+	// "github.com/rs/xid"
 
-// 	"sso/src/model"
-// 	"sso/src/utils"
-// 	"time"
-// )
+	"fmt"
+	"sso/src/model"
+	"sso/src/utils"
+)
 
-// func LoginService(user model.User) (string, model.User, error) {
-// 	err := utils.LdapValid(user.Username, user.Password)
-// 	if err == nil {
-// 		token, err := utils.JwtEncode(user.Username, user.Roles)
-// 		if err != nil {
-// 			// log.Error(err)
-// 			return "", user, err
-// 		}
-// 		u, menus, err := user.FindUser()
-// 		if err != nil {
-// 			// log.Error(err)
-// 			return "", user, err
-// 		}
-// 		if u == nil {
-// 			user.UserId = xid.New().String()
-// 			err = user.CreateUser()
-// 			if err != nil {
-// 				return "", user, err
-// 			}
-// 			return token, user, err
-// 		}
-// 		//测试代码 start
-// 		var menuList []model.MenuTest
-// 		for j := range menus {
-// 			for v := range menus {
-// 				if menus[j].Pid == menus[v].MenuId {
-// 					menus[v].Children = append(menus[v].Children, menus[j])
-// 				}
-// 			}
-// 		}
-// 		for i := range menus {
-// 			if menus[i].Pid == "0" {
-// 				menuList = append(menuList, menus[i])
-// 			}
-// 		}
-// 		//for j := range menus{
-// 		//	for v:=range menuList{
-// 		//		if menus[j].Pid == menuList[v].MenuId{
-// 		//			menuList[v].Children = append(menuList[v].Children, menus[j])
-// 		//			break
-// 		//		}
-// 		//	}
-// 		//}
-// 		u.Menus = menuList
-// 		//end
-// 		return token, *u, result.Err()
-// 	} else {
-// 		log.Error(err)
-// 		return "", user, err
-// 	}
-// }
+func LoginService(user model.User) (string, error) {
+	fmt.Println("===========1")
+	err := utils.LdapValid(user.Username, user.Password)
+	fmt.Println("===========11")
+	if err != nil {
+		// log.Error(err)
+		return "", err
+	}
+	fmt.Println("===========2")
+	roles, err := user.GetRolesByUser(user)
+	if err != nil {
+		return "", err
+	}
+	var roleidarr []string
+	for i, role := range roles {
+		roleidarr[i] = role.RoleID
+	}
+	fmt.Println("===========3")
+	token, err := utils.JwtEncode(user.Username, roleidarr)
+	return token, err
+
+}
 
 // /*
 // 验证接口可以不用,现在验证放在客户端

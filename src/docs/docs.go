@@ -25,6 +25,72 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/sso/group/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户组组管理"
+                ],
+                "summary": "创建用户组组接口",
+                "parameters": [
+                    {
+                        "description": "create",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Group"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":0,\"data\":{},\"msg\":\"success\"}",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/sso/login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "登陆管理"
+                ],
+                "summary": "登陆接口",
+                "parameters": [
+                    {
+                        "description": "login",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/exception.LoginUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":0,\"data\":{},\"msg\":\"success\"}",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/sso/role/create": {
             "post": {
                 "consumes": [
@@ -60,6 +126,17 @@ var doc = `{
         }
     },
     "definitions": {
+        "exception.LoginUser": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "handler.Response": {
             "type": "object",
             "properties": {
@@ -74,10 +151,47 @@ var doc = `{
                 }
             }
         },
+        "model.Group": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "user_group": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.User"
+                    }
+                }
+            }
+        },
         "model.Role": {
             "type": "object",
             "properties": {
                 "roleName": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.User": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "user_group": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Group"
+                    }
+                },
+                "username": {
                     "type": "string"
                 }
             }

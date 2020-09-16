@@ -38,18 +38,23 @@ func _LdapConn() (*ldap.Conn, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("ldap连接成功")
 	return l, nil
 }
 
 // LdapValid 验证用户账户密码
 func LdapValid(username, password string) error {
 	// return _LdapValid(username, password, viper.GetString("ldap.domain"))
-	return _LdapValid(username, password, ldapConf.Domain)
+	return _LdapValid(username, password, viper.GetString("ldap.domain"))
 }
 func _LdapValid(username, password, domain string) error {
 
 	l, err := _LdapConn()
 	defer l.Close()
+	if err != nil {
+		return err
+	}
+
 	// 验证用户
 	controls := []ldap.Control{}
 	controls = append(controls, ldap.NewControlBeheraPasswordPolicy())
@@ -57,17 +62,18 @@ func _LdapValid(username, password, domain string) error {
 
 	r, err := l.SimpleBind(bindRequest)
 	if err != nil {
+		fmt.Println("验证用户失败")
 		return err
 	}
+
 	// 验证策略
 	ppolicyControl := ldap.FindControl(r.Controls, ldap.ControlTypeBeheraPasswordPolicy)
 	var ppolicy *ldap.ControlBeheraPasswordPolicy
 	if ppolicyControl != nil {
 		ppolicy = ppolicyControl.(*ldap.ControlBeheraPasswordPolicy)
+	} else {
+		return nil //fmt.Errorf("ppolicyControl response not available.\n")
 	}
-	// else {
-	// 	log.Info("ppolicyControl response not available.\n")
-	// }
 	if ppolicy != nil {
 		if ppolicy.Expire >= 0 {
 			return fmt.Errorf(". Password expires in %d seconds\n", ppolicy.Expire)

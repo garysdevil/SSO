@@ -8,8 +8,8 @@ import (
 
 func utilsTest() {
 
-	test1GetAllUser()
-	//jwt()
+	// test1GetAllUser()
+	jwt()
 
 	fmt.Println("\nEnd utilsTest()")
 }
@@ -26,7 +26,7 @@ func test1GetAllUser() {
 }
 
 func jwt() {
-	token, err := utils.JwtEncode("谢石冈", []int{1, 2, 3})
+	token, err := utils.JwtEncode("谢石冈", []string{"1", "2", "3"})
 	if err != nil {
 		fmt.Println(err)
 	} else {
