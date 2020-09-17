@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"sso/src/middleware"
-	"sso/src/router"
 	"sso/src/model"
+	"sso/src/router"
+	"sso/src/utils"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -16,6 +17,7 @@ func Execute() {
 	}
 	model.InitDB()
 
+	utils.InitRedisClient()
 	// gin.SetMode(gin.ReleaseMode)
 	server := gin.New()
 

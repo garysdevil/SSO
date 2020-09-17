@@ -14,7 +14,7 @@ func Router(router *gin.Engine) {
 
 	router.POST("/sso/login", handler.LoginHandler)
 	router.POST("/sso/check", handler.CheckJwtHandler)
-	// router.GET("/sso/logout", handler.LogoutHandler)
+	router.POST("/sso/logout", handler.LogoutHandler)
 	// router.GET("/sso/freshtoken", handler.RefreshTokenHandler)
 
 	r := router.Group("/sso/role/")

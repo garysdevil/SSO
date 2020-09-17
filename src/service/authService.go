@@ -3,11 +3,16 @@ package service
 import (
 	// "github.com/rs/xid"
 
+	"context"
 	"sso/src/model"
 	"sso/src/utils"
+	"time"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
+
+var ctx = context.Background()
 
 func LoginService(user model.User) (string, error) {
 	err := utils.LdapValid(user.Username, user.Password)
@@ -28,31 +33,37 @@ func LoginService(user model.User) (string, error) {
 
 }
 
-// 验证token是否过期
+// 验证token是否过期,未过期则返回false
 func CheckJwtService(token string) (bool, error) {
-	// secret,err :=utils.RedisClient().Get(token).Result()
-	// if err !=nil{
+	// secret, err := utils.RedisClient().Get(token).Result()
+	// if err != nil {
 	// 	fmt.Println(err)
 	// 	panic(err)
 	// }
-	username, err := utils.JwtDecode(viper.GetString("token.secret"), token)
-	//判断过期时间
-	//if result && existTime<viper.GetInt64("token.expireTime")-viper.GetInt64("token.refreshTime") {
-	//	return result,true
-	//}
-	if username != "" {
-		return true, nil
+	if result, err := utils.RedisClient.Exists(ctx, token).Result(); err != nil {
+		log.Info(err)
+	} else {
+		if result == 1 {
+			return true, nil
+		}
 	}
-	return false, err
+
+	username, err := utils.JwtDecode(viper.GetString("token.secret"), token)
+
+	if username != "" {
+		return false, nil
+	}
+	return true, err
 }
 
-// func LogoutService(token string) error {
-// 	result := utils.RedisClient().Del(token)
-// 	if result.Err() != nil {
-// 		return result.Err()
-// 	}
-// 	return nil
-// }
+func LogoutService(token string) error {
+
+	err := utils.RedisClient.Set(ctx, token, "-", time.Minute*viper.GetDuration("token.expireTime")).Err()
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 // func RefreshToken(token string) (string, string, error) {
 // 	oldSecret, err := utils.RedisClient().Get(token).Result()

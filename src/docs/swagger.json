@@ -104,6 +104,38 @@
                 }
             }
         },
+        "/sso/logout": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "登陆管理"
+                ],
+                "summary": "登出接口",
+                "parameters": [
+                    {
+                        "description": "token",
+                        "name": "user",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/exception.Token"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":0,\"data\":{},\"msg\":\"success\"}",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/sso/role/create": {
             "post": {
                 "consumes": [

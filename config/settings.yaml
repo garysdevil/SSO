@@ -1,5 +1,8 @@
 server.addr: 127.0.0.1:80
-
+redis:
+    server: 1.1.1.1:6791
+    password: ""
+    db: 0
 token:
   # 单位为分钟
   expireTime: 110

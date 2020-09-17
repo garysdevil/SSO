@@ -67,42 +67,40 @@ func CheckJwtHandler(c *gin.Context) {
 	}
 	data := map[string]bool{"flag": flag}
 	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, data)
-	// if flag {
-	// 	//newToken,err :=service.RefreshToken(token)
-	// 	//if err!=nil{
-	// 	//	panic(err)
-	// 	//}
-	// 	//c.SetCookie("token",newToken,0,"/","wx.bc",false,true)
-	// 	c.String(http.StatusOK, "true")
-	// }
-	//c.String(http.StatusOK,"true")
 }
 
-// // @Summary 登出接口
-// // @Tags 登陆管理
-// // @Accept  json
-// // @Produce  json
-// // @Success 200 {object} model.Response "{"code":0,"data":{},"msg":"success"}"
-// // @Router /sso/logout [get]
-// func LogoutHandler(c *gin.Context) {
-// 	token, err := c.Cookie("token")
-// 	if err != nil {
-// 		log.Info("获取token错误：" + err.Error())
-// 		SendResponse(c, exception.CustomCode{Code: exception.GetCookieError.Code,
-// 			Message: exception.GetCookieError.Message}, "")
-// 		return
-// 	}
-// 	err = service.LogoutService(token)
-// 	if err != nil {
-// 		log.Info("登出失败：" + err.Error())
-// 		SendResponse(c, exception.CustomCode{Code: exception.LogoutError.Code,
-// 			Message: exception.LogoutError.Message}, "")
-// 		return
-// 	}
-// 	c.SetCookie("token", "", -1, "/", "wx.bc", false, true)
-// 	log.Info("登出成功")
-// 	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, "")
-// }
+// @Summary 登出接口
+// @Tags 登陆管理
+// @Accept  json
+// @Produce  json
+// @Param user body exception.Token false "token"
+// @Success 200 {object} Response "{"code":0,"data":{},"msg":"success"}"
+// @Router /sso/logout [post]
+func LogoutHandler(c *gin.Context) {
+	var token exception.Token
+	token.Token, _ = c.Cookie("token")
+	err := c.Bind(&token)
+
+	fmt.Println(token.Token)
+	if err != nil {
+		log.Info("获取token错误：" + err.Error())
+		SendResponse(c, exception.CustomCode{Code: exception.GetCookieError.Code,
+			Message: exception.GetCookieError.Message}, "")
+		return
+	}
+
+	err = service.LogoutService(token.Token)
+	if err != nil {
+		log.Info("登出失败：" + err.Error())
+		SendResponse(c, exception.CustomCode{Code: exception.LogoutError.Code,
+			Message: exception.LogoutError.Message}, "")
+		return
+	}
+	c.SetCookie("token", "", -1, "/", "wx.bc", false, true)
+	log.Info("登出成功")
+	data := map[string]bool{"flag": true}
+	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, data)
+}
 
 // // @Summary 刷新token接口
 // // @Tags 登陆管理

@@ -10,6 +10,8 @@ require (
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-ldap/ldap v3.0.3+incompatible // indirect
 	github.com/go-ldap/ldap/v3 v3.2.3
+	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/go-redis/redis/v8 v8.0.0
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/go-swagger/go-swagger v0.25.0 // indirect
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
