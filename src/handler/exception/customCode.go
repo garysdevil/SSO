@@ -6,11 +6,11 @@ type CustomCode struct {
 }
 
 var (
-	OK             = &CustomCode{Code: 0, Message: "OK"}
-	LoginError     = &CustomCode{Code: 10001, Message: "登入失败"}
-	LogoutError    = &CustomCode{Code: 10002, Message: "登出失败"}
-	FreshJwtError  = &CustomCode{Code: 10003, Message: "刷新token失败"}
-	GetCookieError = &CustomCode{Code: 10004, Message: "cookie获取失败"}
+	OK               = &CustomCode{Code: 0, Message: "OK"}
+	LoginError       = &CustomCode{Code: 10001, Message: "登入失败"}
+	LogoutError      = &CustomCode{Code: 10002, Message: "登出失败"}
+	FreshJwtError    = &CustomCode{Code: 10004, Message: "刷新token失败"}
+	GetCookieError   = &CustomCode{Code: 10005, Message: "cookie获取失败"}
 
 	CreateRoleError = &CustomCode{Code: 10010, Message: "角色创建失败"}
 	DeleteRoleError = &CustomCode{Code: 10011, Message: "角色删除失败"}

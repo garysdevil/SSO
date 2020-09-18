@@ -34,7 +34,7 @@
             success: function (res) {
                 //window.location.href = "www.baidu.com";
                 // console.log(res);
-                if (res.code == 0) {
+                if (res.data.token) {
                     
                     setCookie('token',res.data.token,3600)
                     alert("登录成功，跳转到回调地址");

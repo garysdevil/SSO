@@ -2,9 +2,7 @@ package cmd
 
 import (
 	"sso/src/middleware"
-	"sso/src/model"
 	"sso/src/router"
-	"sso/src/utils"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -12,12 +10,7 @@ import (
 )
 
 func Execute() {
-	if err := InitConfig(""); err != nil {
-		panic(err)
-	}
-	model.InitDB()
 
-	utils.InitRedisClient()
 	// gin.SetMode(gin.ReleaseMode)
 	server := gin.New()
 
