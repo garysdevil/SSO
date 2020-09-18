@@ -10,16 +10,17 @@ import (
 )
 
 func Router(router *gin.Engine) {
-	a := router.Group("/v1/sso/"){
-		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	a := router.Group("/v1/sso/")
+	{
+		a.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		a.Static("/static", "./static")
 
-		router.POST("/sso/login", handler.LoginHandler)
-		router.POST("/sso/check", handler.CheckJwtHandler)
-		router.POST("/sso/logout", handler.LogoutHandler)
-		router.Static("/static", "./static")
+		a.POST("/login", handler.LoginHandler)
+		a.POST("/check", handler.CheckJwtHandler)
+		a.POST("/logout", handler.LogoutHandler)
+
 		// router.GET("/sso/freshtoken", handler.RefreshTokenHandler)
 	}
-
 
 	r := router.Group("/v1/sso/role/")
 	{
