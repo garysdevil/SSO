@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-// @Summary 登陆接口
+// @Summary 登入接口
 // @Tags 登陆管理
 // @Accept  json
 // @Produce  json
@@ -81,7 +81,7 @@ func LogoutHandler(c *gin.Context) {
 	token.Token, _ = c.Cookie("token")
 	err := c.Bind(&token)
 
-	fmt.Println(token.Token)
+	fmt.Println(token.Token + "===")
 	if err != nil {
 		log.Info("获取token错误：" + err.Error())
 		SendResponse(c, exception.CustomCode{Code: exception.GetCookieError.Code,

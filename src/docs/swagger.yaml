@@ -113,7 +113,7 @@ paths:
           description: '{"code":0,"data":{},"msg":"success"}'
           schema:
             $ref: '#/definitions/handler.Response'
-      summary: 登陆接口
+      summary: 登入接口
       tags:
       - 登陆管理
   /sso/logout:

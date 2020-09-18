@@ -15,6 +15,7 @@ func Router(router *gin.Engine) {
 	router.POST("/sso/login", handler.LoginHandler)
 	router.POST("/sso/check", handler.CheckJwtHandler)
 	router.POST("/sso/logout", handler.LogoutHandler)
+	router.Static("/static", "./static")
 	// router.GET("/sso/freshtoken", handler.RefreshTokenHandler)
 
 	r := router.Group("/sso/role/")

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>认证中心登录页面</title>
+</head>
+<body>
+<div style="width:800px;margin:0 auto">
+    <input type="text" value="" id="name"/><br/>
+    <input type="password" value="" id="password"/><br/>
+    <button id="login" onclick="doLogin()">登录</button>
+</div>
+
+<script src="main.js"></script>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    // alert(document.referrer)
+    // setCookie('token','yes',3600)
+    // document.cookie="popped=yes"
+    // alert(document.cookie);
+    // window.location.href=getUrlParam("redirectURL")
+    // window.history.back(-1);
+</script>
+<script>
+    function doLogin() {
+        var username = $('#name').val();
+        var password = $('#password').val();
+        console.log("start");
+        $.ajax({
+            type: 'post',
+            url: "/sso/login",
+            contentType: "application/json",
+            data: JSON.stringify({username: username, password: password}),
+            success: function (res) {
+                //window.location.href = "www.baidu.com";
+                // console.log(res);
+                if (res.code == 0) {
+                    
+                    setCookie('token',res.data.token,3600)
+                    alert("登录成功，跳转到回调地址");
+                    //window.location.href ="/static/demo1.html"
+                    window.location.href = getUrlParam("redirectURL") + '?token=' + res.data.token
+                } else {
+                    alert("账号密码错误");
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎访问demo1</title>
+    <script src="main.js"></script>
+
+</head>
+
+<script>
+    token = getCookie("token")
+    // alert(document.cookie);
+    if (token === ''){
+        alert('token=' + token + ',为空，将跳转到登陆界面')
+        // window.location.href="file:///E:/Project/SSO/static/login.html?redirectURL=file:///E:/Project/SSO/static/demo1.html"
+        window.location.href="http://127.0.0.1:80/static/login.html?redirectURL=" + window.location.href
+    }
+</script>
+<body>
+<h1>这是demo1的主页</h1>
+</body>
+</html>
+<script>
+
+</script>

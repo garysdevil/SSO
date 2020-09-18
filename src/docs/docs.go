@@ -102,7 +102,7 @@ var doc = `{
                 "tags": [
                     "登陆管理"
                 ],
-                "summary": "登陆接口",
+                "summary": "登入接口",
                 "parameters": [
                     {
                         "description": "login",
