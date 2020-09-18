@@ -1,4 +1,6 @@
-# 1
+# OSS 单点登录(权限管理)平台
+
+## 概览
 0. go版本
 go1.15.1
 
@@ -16,23 +18,11 @@ go build -o sso
 5. 依赖的服务
 mysql
 redis
-# 与一个系统对接
-## 单点登陆
-1. 登入
-/sso/login
-输入 账户密码
-{
-  "password": "string",
-  "username": "string"
-}
-输出
-{
-  "code": 0,
-  "message": "OK",
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDAzMjY1NDcsImlhdCI6MTYwMDMyMjk0NywidXNlcm5hbWUiOiJ4aWVzaGlnYW5nIiwicm9sZWlkIjpudWxsfQ.jhyIwARMok8H5Gl9yx7vEY_u33HuRHTXJFfNNagvhdI"
-  }
-}
+## 与一个系统对接
+### 单点登陆
+1. 未登入过则跳转到http://10.200.79.81/static/login.html?redi
+用户登入成功则返回跳转前的页面
+
 2. 登出
 /sso/logout
 输入
