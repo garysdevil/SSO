@@ -39,8 +39,9 @@
                     setCookie('token',res.data.token,3600)
                     alert("登录成功，跳转到回调地址");
                     //window.location.href ="/static/demo1.html"
-                    redirectURL = getUrlParam("redirectURL") || 'http://baidu.com'
-                    window.location.href = getUrlParam("redirectURL") + '?token=' + res.data.token
+                    redirectURL = getUrlParam("redirectURL") || 'http://garys.top'
+                    alert(redirectURL)
+                    window.location.href = redirectURL + '?token=' + res.data.token
                 } else {
                     alert("账号密码错误");
                 }
