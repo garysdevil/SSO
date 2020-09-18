@@ -28,7 +28,7 @@
         console.log("start");
         $.ajax({
             type: 'post',
-            url: "/sso/login",
+            url: "/v1/sso/login",
             contentType: "application/json",
             data: JSON.stringify({username: username, password: password}),
             success: function (res) {

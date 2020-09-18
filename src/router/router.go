@@ -10,15 +10,18 @@ import (
 )
 
 func Router(router *gin.Engine) {
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	a := router.Group("/v1/sso/"){
+		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	router.POST("/sso/login", handler.LoginHandler)
-	router.POST("/sso/check", handler.CheckJwtHandler)
-	router.POST("/sso/logout", handler.LogoutHandler)
-	router.Static("/static", "./static")
-	// router.GET("/sso/freshtoken", handler.RefreshTokenHandler)
+		router.POST("/sso/login", handler.LoginHandler)
+		router.POST("/sso/check", handler.CheckJwtHandler)
+		router.POST("/sso/logout", handler.LogoutHandler)
+		router.Static("/static", "./static")
+		// router.GET("/sso/freshtoken", handler.RefreshTokenHandler)
+	}
 
-	r := router.Group("/sso/role/")
+
+	r := router.Group("/v1/sso/role/")
 	{
 		//r.POST("/menu/add",handler.RoleMenuRelateHandler)
 		r.POST("/create", handler.CreateRoleHandler)
@@ -28,7 +31,7 @@ func Router(router *gin.Engine) {
 		// r.DELETE("/delete/:id",handler.DeleteRoleHandler)
 	}
 
-	g := router.Group("/sso/group/")
+	g := router.Group("/v1/sso/group/")
 	{
 		//r.POST("/menu/add",handler.RoleMenuRelateHandler)
 		g.POST("/create", handler.CreateGroupHandler)
