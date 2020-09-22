@@ -25,6 +25,16 @@ go build -o sso
 
 6. 启动服务端
 ./sso
+
+## 首次部署运行sso系统
+1. 创建数据库sso
+2. 修改配置文件
+cp settings.yaml settings.dev.yaml
+vi settings.dev.yaml
+3. go build -o sso
+4. ./sso initdb
+5. ./sso
+
 ## 与一个系统对接
 ### 单点登陆
 1. 登入
