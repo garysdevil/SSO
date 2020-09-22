@@ -60,6 +60,7 @@ func LogoutService(token string) error {
 
 	_, err := utils.JwtDecode(viper.GetString("token.secret"), token)
 	if err != nil {
+		log.Info("登出：无效的token")
 		return nil
 	}
 
