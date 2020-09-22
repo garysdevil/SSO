@@ -33,8 +33,8 @@ func LoginService(user model.User) (string, error) {
 
 }
 
-// 验证token是否有效, 有效则返回true
-func CheckJwtService(token string) (bool, error) {
+// 验证token是否有效, 有效则返回nil
+func CheckJwtService(token string) error {
 	// secret, err := utils.RedisClient().Get(token).Result()
 	// if err != nil {
 	// 	fmt.Println(err)
@@ -44,16 +44,16 @@ func CheckJwtService(token string) (bool, error) {
 		log.Info(err)
 	} else {
 		if result == 1 {
-			return false, nil
+			return nil
 		}
 	}
 
 	username, err := utils.JwtDecode(viper.GetString("token.secret"), token)
 
 	if username != "" {
-		return true, nil
+		return nil
 	}
-	return false, err
+	return err
 }
 
 func LogoutService(token string) error {

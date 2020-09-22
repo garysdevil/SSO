@@ -1,16 +1,4 @@
 definitions:
-  exception.LoginUser:
-    properties:
-      password:
-        type: string
-      username:
-        type: string
-    type: object
-  exception.Token:
-    properties:
-      token:
-        type: string
-    type: object
   handler.Response:
     properties:
       code:
@@ -49,31 +37,22 @@ definitions:
       username:
         type: string
     type: object
+  schema.LoginUser:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  schema.Token:
+    properties:
+      token:
+        type: string
+    type: object
 info:
   contact: {}
   license: {}
 paths:
-  /sso/check:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/exception.Token'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: '{"code":0,"data":{},"msg":"success"}'
-          schema:
-            $ref: '#/definitions/handler.Response'
-      summary: 验证token接口
-      tags:
-      - 登陆管理
   /sso/group/create:
     post:
       consumes:
@@ -95,47 +74,6 @@ paths:
       summary: 创建用户组组接口
       tags:
       - 用户组组管理
-  /sso/login:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: login
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/exception.LoginUser'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: '{"code":0,"data":{},"msg":"success"}'
-          schema:
-            $ref: '#/definitions/handler.Response'
-      summary: 登入接口
-      tags:
-      - 登陆管理
-  /sso/logout:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: body
-        name: user
-        schema:
-          $ref: '#/definitions/exception.Token'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: '{"code":0,"data":{},"msg":"success"}'
-          schema:
-            $ref: '#/definitions/handler.Response'
-      summary: 登出接口
-      tags:
-      - 登陆管理
   /sso/role/create:
     post:
       consumes:
@@ -157,4 +95,66 @@ paths:
       summary: 创建角色接口
       tags:
       - 角色管理
+  /v1/sso/check:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/schema.Token'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"data":{},"msg":"success"}'
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 验证token接口
+      tags:
+      - 登陆管理
+  /v1/sso/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: login
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/schema.LoginUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"data":{},"msg":"success"}'
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 登入接口
+      tags:
+      - 登陆管理
+  /v1/sso/logout:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: body
+        name: user
+        schema:
+          $ref: '#/definitions/schema.Token'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"data":{},"msg":"success"}'
+          schema:
+            $ref: '#/definitions/handler.Response'
+      summary: 登出接口
+      tags:
+      - 登陆管理
 swagger: "2.0"

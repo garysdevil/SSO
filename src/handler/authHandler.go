@@ -20,7 +20,7 @@ import (
 // @Produce  json
 // @Param user body schema.LoginUser true "login"
 // @Success 200 {object} Response "{"code":0,"data":{},"msg":"success"}"
-// @Router /sso/login [post]
+// @Router /v1/sso/login [post]
 func LoginHandler(c *gin.Context) {
 	// w := c.Writer
 	// r := c.Request
@@ -61,24 +61,25 @@ func LoginHandler(c *gin.Context) {
 // @Produce  json
 // @Param user body schema.Token true "token"
 // @Success 200 {object} Response "{"code":0,"data":{},"msg":"success"}"
-// @Router /sso/check [post]
+// @Router /v1/sso/check [post]
 func CheckJwtHandler(c *gin.Context) {
 	var token schema.Token
 	err := c.Bind(&token)
 	if err != nil {
 		log.Info("绑定结构体错误：" + err.Error())
 
-		SendResponse(c, exception.CustomCode{Code: exception.LoginError.Code,
-			Message: exception.LoginError.Message}, err.Error())
+		SendResponse(c, exception.CustomCode{Code: exception.CheckJwtError.Code,
+			Message: exception.CheckJwtError.Message}, err.Error())
 		return
 	}
-	fmt.Println(token.Token + "---------")
-	flag, err := service.CheckJwtService(token.Token)
+	err = service.CheckJwtService(token.Token)
 	if err != nil {
 		log.Info(err)
+		SendResponse(c, exception.CustomCode{Code: exception.CheckJwtError.Code,
+			Message: exception.CheckJwtError.Message}, err.Error())
+		return
 	}
-	data := map[string]bool{"flag": flag}
-	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, data)
+	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, "")
 }
 
 // @Summary 登出接口
@@ -87,7 +88,7 @@ func CheckJwtHandler(c *gin.Context) {
 // @Produce  json
 // @Param user body schema.Token false "token"
 // @Success 200 {object} Response "{"code":0,"data":{},"msg":"success"}"
-// @Router /sso/logout [post]
+// @Router /v1/sso/logout [post]
 func LogoutHandler(c *gin.Context) {
 	var token schema.Token
 	token.Token, _ = c.Cookie("token")
@@ -110,8 +111,8 @@ func LogoutHandler(c *gin.Context) {
 	}
 	c.SetCookie("token", "", -1, "/", "wx.bc", false, true)
 	log.Info("登出成功")
-	data := map[string]bool{"flag": true}
-	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, data)
+
+	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, "")
 }
 
 // // @Summary 刷新token接口
