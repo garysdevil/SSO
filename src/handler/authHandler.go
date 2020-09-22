@@ -2,10 +2,12 @@ package handler
 
 import (
 	"fmt"
-	"sso/src/handler/exception"
 	"sso/src/model"
 	"sso/src/service"
 	"time"
+
+	"sso/src/handler/exception"
+	"sso/src/handler/schema"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -16,7 +18,7 @@ import (
 // @Tags 登陆管理
 // @Accept  json
 // @Produce  json
-// @Param user body exception.LoginUser true "login"
+// @Param user body schema.LoginUser true "login"
 // @Success 200 {object} Response "{"code":0,"data":{},"msg":"success"}"
 // @Router /sso/login [post]
 func LoginHandler(c *gin.Context) {
@@ -57,11 +59,11 @@ func LoginHandler(c *gin.Context) {
 // @Tags 登陆管理
 // @Accept  json
 // @Produce  json
-// @Param user body exception.Token true "token"
+// @Param user body schema.Token true "token"
 // @Success 200 {object} Response "{"code":0,"data":{},"msg":"success"}"
 // @Router /sso/check [post]
 func CheckJwtHandler(c *gin.Context) {
-	var token exception.Token
+	var token schema.Token
 	err := c.Bind(&token)
 	if err != nil {
 		log.Info("绑定结构体错误：" + err.Error())
@@ -83,11 +85,11 @@ func CheckJwtHandler(c *gin.Context) {
 // @Tags 登陆管理
 // @Accept  json
 // @Produce  json
-// @Param user body exception.Token false "token"
+// @Param user body schema.Token false "token"
 // @Success 200 {object} Response "{"code":0,"data":{},"msg":"success"}"
 // @Router /sso/logout [post]
 func LogoutHandler(c *gin.Context) {
-	var token exception.Token
+	var token schema.Token
 	token.Token, _ = c.Cookie("token")
 	err := c.Bind(&token)
 
