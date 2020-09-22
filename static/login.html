@@ -42,10 +42,8 @@
                     var exp = new Date(); 
                     exp.setTime(exp.getTime() + Days); 
                     document.cookie = "token=" + res.data.token + ";expires="+ exp.toString() + ";path=/" + ";domain=wxblockchain.com";
-                    alert("登录成功，跳转到回调地址");
-                    //window.location.href ="/static/demo1.html"
                     redirectURL = getUrlParam("redirectURL") || 'http://garys.top'
-                    alert(redirectURL)
+                    alert("登录成功，跳转到回调地址: " + redirectURL);
                     window.location.href = redirectURL + '?token=' + res.data.token
                 } else {
                     alert("账号密码错误");
