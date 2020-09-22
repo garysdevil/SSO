@@ -28,11 +28,11 @@ go build -o sso
 ## 与一个系统对接
 ### 单点登陆
 1. 登入
-  - 未登入过则跳转到 http://10.200.79.81/static/login.html?redirectURL=登入成功跳转页面的URI
-  - 用户登入成功则重定向到 redirectURL?token=string
+  - 业务系统设置未登入过则跳转到 http://sso.wxblockchain.com/v1/sso/static/login.html?redirectURL=登入成功跳转页面的URI
+  - sso系统，用户登入成功则 在wxblockchain.com域名下设置cookie保存token 和 重定向到 redirectURL?token=string
 
 2. 登出
-/sso/logout
+/v1/sso/logout
 输入
 {
   "token": "string"
@@ -47,7 +47,7 @@ go build -o sso
 }
 
 3. 验证token是否有效
-/sso/check
+/v1/sso/check
 输入
 {
   "token": "string"

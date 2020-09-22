@@ -20,6 +20,16 @@ import (
 // @Success 200 {object} Response "{"code":0,"data":{},"msg":"success"}"
 // @Router /sso/login [post]
 func LoginHandler(c *gin.Context) {
+	w := c.Writer
+	r := c.Request
+	// 处理js-ajax跨域问题
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+	w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
+	w.Header().Set("Access-Control-Allow-Methods", "OPTIONS, POST")
+	// w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE,UPDATE")
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Add("Access-Control-Allow-Headers", "Access-Token")
+
 	var user model.User
 	err := c.Bind(&user)
 	if err != nil {
