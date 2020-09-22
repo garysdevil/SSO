@@ -12,7 +12,7 @@ redis
 swag init --output ./src/docs
 
 3. 访问文档的url
-/swagger/index.html
+/v1/sso/swagger/index.html
 
 4. 运行程序
 go run .
@@ -37,10 +37,9 @@ vi settings.dev.yaml
 6. ./sso
 
 ## 与一个系统对接
-### 单点登陆
 1. 登入
   - 业务系统设置未登入过则跳转到 http://sso.wxblockchain.com/v1/sso/static/login.html?redirectURL=登入成功跳转页面的URI
-  - sso系统，用户登入成功则 在 wxblockchain.com 域名下设置cookie保存token 和 重定向到 redirectURL?token=string
+  - 单点登登入系统，用户登入成功则 在 wxblockchain.com 域名下设置cookie保存token 和 重定向到 redirectURL?token=string
 
 2. 登出
 /v1/sso/logout
