@@ -58,7 +58,12 @@ func CheckJwtService(token string) error {
 
 func LogoutService(token string) error {
 
-	err := utils.RedisClient.Set(ctx, token, "-", time.Minute*viper.GetDuration("token.expireTime")).Err()
+	_, err := utils.JwtDecode(viper.GetString("token.secret"), token)
+	if err != nil {
+		return nil
+	}
+
+	err = utils.RedisClient.Set(ctx, token, "-", time.Minute*viper.GetDuration("token.expireTime")).Err()
 	if err != nil {
 		return err
 	}
