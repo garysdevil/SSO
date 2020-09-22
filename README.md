@@ -27,19 +27,20 @@ go build -o sso
 ./sso
 
 ## 首次部署运行sso系统
-1. 创建数据库sso
-2. 修改配置文件
+1. 部署mysql数据库服务，redis服务
+2. 创建数据库sso
+3. 修改配置文件
 cp settings.yaml settings.dev.yaml
 vi settings.dev.yaml
-3. go build -o sso
-4. ./sso initdb
-5. ./sso
+4. go build -o sso
+5. ./sso initdb
+6. ./sso
 
 ## 与一个系统对接
 ### 单点登陆
 1. 登入
   - 业务系统设置未登入过则跳转到 http://sso.wxblockchain.com/v1/sso/static/login.html?redirectURL=登入成功跳转页面的URI
-  - sso系统，用户登入成功则 在wxblockchain.com域名下设置cookie保存token 和 重定向到 redirectURL?token=string
+  - sso系统，用户登入成功则 在 wxblockchain.com 域名下设置cookie保存token 和 重定向到 redirectURL?token=string
 
 2. 登出
 /v1/sso/logout
