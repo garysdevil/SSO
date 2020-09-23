@@ -49,7 +49,7 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("token", token, int(time.Minute*viper.GetDuration("token.expireTime")), viper.GetString("cookie.path"), viper.GetString("cookie.domain"), false, false)
+	c.SetCookie("tokenString", token, int(time.Minute*viper.GetDuration("token.expireTime")), viper.GetString("cookie.path"), viper.GetString("cookie.domain"), false, false)
 	log.Info("登录成功，用户：" + user.Username + "登陆时间:" + time.Now().String())
 	data := map[string]string{"token": token}
 	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, data)
@@ -110,7 +110,7 @@ func LogoutHandler(c *gin.Context) {
 			Message: exception.LogoutError.Message}, "")
 		return
 	}
-	c.SetCookie("token", "", -1, viper.GetString("cookie.path"), viper.GetString("cookie.domain"), false, false)
+	c.SetCookie("tokenString", "", -1, viper.GetString("cookie.path"), viper.GetString("cookie.domain"), false, false)
 	log.Info("登出成功")
 
 	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, "")

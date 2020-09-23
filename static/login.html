@@ -15,10 +15,6 @@
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
     // alert(document.referrer)
-    // setCookie('token','yes',3600)
-    // document.cookie="popped=yes"
-    // alert(document.cookie);
-    // window.location.href=getUrlParam("redirectURL")
     // window.history.back(-1);
 </script>
 <script>
@@ -36,8 +32,10 @@
                 if (res.code === 0) {
                     // setCookie('token',res.data.token, 3600,"wxblockchain.com","/" )
                     redirectURL = getUrlParam("redirectURL") || 'http://garys.top'
-                    alert("登录成功，跳转到回调地址: " + redirectURL);
-                    window.location.href = redirectURL + '?token=' + res.data.token
+                    // alert("登录成功，跳转到回调地址: " + redirectURL);
+                    // window.location.href = redirectURL + '?token=' + res.data.token
+                    console.log("登录成功，跳转到回调地址: " + redirectURL);
+                    window.location.href = redirectURL
                 } else {
                     alert("账号密码错误");
                 }

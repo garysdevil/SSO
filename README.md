@@ -39,7 +39,7 @@ vi settings.dev.yaml
 ## 与一个系统对接
 1. 登入
   - 业务系统设置未登入过则跳转到 http://sso.wxblockchain.com/v1/sso/static/login.html?redirectURL=登入成功跳转页面的URI
-  - 单点登入系统，用户登入成功则 在 wxblockchain.com 域名下设置cookie保存token值 和 重定向到 redirectURL?token=string
+  - 单点登入系统，用户登入成功则 在 wxblockchain.com 域名下设置cookie tokenString="" 和 重定向到 redirectURL
 
 2. 登出
 /v1/sso/logout
