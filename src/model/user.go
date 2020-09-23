@@ -28,6 +28,7 @@ func (u *User) GetRolesByUser(user User) (roles []Role, err error) {
 	err = DB.Debug().Model(&groups).Association("Roles").Find(&roles)
 	return
 }
+
 // func (user *User) ListAllUserBy(created_by string) ([]User, int64) {
 // 	var count int64
 // 	DB.Model(&user).Where("created_by = ?", created_by).(&count)

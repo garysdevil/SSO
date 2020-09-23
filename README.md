@@ -40,14 +40,7 @@ vi settings.dev.yaml
 1. 登入
   - 业务系统设置未登入过则跳转到 http://sso.wxblockchain.com/v1/sso/static/login.html?redirectURL=登入成功跳转页面的URI
   - 单点登入系统，用户登入成功则 在 wxblockchain.com 域名下设置cookie保存token值 和 重定向到 redirectURL?token=string
-登入成功返回
-{
-  "code": 0,
-  "message": "OK",
-  "data": {
-    "token": "string"
-  }
-}
+
 2. 登出
 /v1/sso/logout
 输入
@@ -71,5 +64,7 @@ token有效则返回
 {
   "code": 0,
   "message": "OK",
-  "data": ""
+  "data": {
+    "username": "string"
+  }
 }

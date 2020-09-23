@@ -45,13 +45,13 @@ func LoginHandler(c *gin.Context) {
 	if err != nil {
 		log.Error(err)
 		SendResponse(c, exception.CustomCode{Code: exception.LoginError.Code,
-			Message: exception.LoginError.Message}, err)
+			Message: exception.LoginError.Message}, err.Error())
 		return
 	}
 
-	c.SetCookie("token", token, int(time.Minute*viper.GetDuration("token.expireTime")), "/", "wxblockchain.com", false, false)
+	c.SetCookie("token", token, int(time.Minute*viper.GetDuration("token.expireTime")), viper.GetString("cookie.path"), viper.GetString("cookie.domain"), false, false)
 	log.Info("登录成功，用户：" + user.Username + "登陆时间:" + time.Now().String())
-	data := map[string]string{"token": token}
+	data := map[string]string{"tokenString": token}
 	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, data)
 }
 
@@ -72,14 +72,15 @@ func CheckJwtHandler(c *gin.Context) {
 			Message: exception.CheckJwtError.Message}, err.Error())
 		return
 	}
-	err = service.CheckJwtService(token.Token)
+	username, _, err := service.CheckJwtService(token.Token)
 	if err != nil {
 		log.Info(err)
 		SendResponse(c, exception.CustomCode{Code: exception.CheckJwtError.Code,
 			Message: exception.CheckJwtError.Message}, err.Error())
 		return
 	}
-	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, "")
+	data := map[string]string{"username": username}
+	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, data)
 }
 
 // @Summary 登出接口

@@ -34,8 +34,8 @@ func JwtEncode(username string, roleidarr []string) (string, error) {
 	return _JwtEncode(claims, secret)
 }
 
-// JwtDecode （密钥，token）返回用户名
-func JwtDecode(secret string, tokenString string) (string, error) {
+// JwtDecode （密钥，token）返回 用户名, 角色id[]
+func JwtDecode(secret string, tokenString string) (string, []string, error) {
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -43,17 +43,20 @@ func JwtDecode(secret string, tokenString string) (string, error) {
 		}
 		return []byte(secret), nil
 	})
+
 	if err != nil {
-		return "", fmt.Errorf("jwt验证错误：" + err.Error())
+		return "", nil, fmt.Errorf("jwt验证错误：" + err.Error())
 	}
 
 	if !token.Valid {
-		return "", fmt.Errorf("jwt验证 token is not valid")
+		return "", nil, fmt.Errorf("jwt验证 token is not valid")
 	}
 	//existTime :=(int64(token.Claims.(jwt.MapClaims)["exp"].(float64))-time.Now().Unix())/60
 	user := token.Claims.(jwt.MapClaims)["username"]
+	roleidarr := token.Claims.(jwt.MapClaims)["roleidarr"]
+	if roleidarr == nil {
+		roleidarr = []string{}
+	}
 	//fmt.Println(existTime)
-
-	fmt.Println("token 验证通过")
-	return user.(string), nil
+	return user.(string), roleidarr.([]string), nil
 }

@@ -19,10 +19,12 @@ function getCookie(name){
 }
 /**
  * [setCookie 设置cookie]
- * [key value t 键 值 时间(秒)]
+ * [key value t 键 值 时间(分钟)]
  */
-function setCookie(key,value,t){
-    var oDate=new Date();
-    oDate.setDate(oDate.getDate() + t );
-    document.cookie=key+"="+value+"; expires="+oDate.toDateString();
+function setCookie(key, value, time = 60, domain = window.location.hostname, path = window.location.pathname){
+
+    var Days = time * 60 * 1000; // 分钟
+    var exp = new Date(); 
+    exp.setTime(exp.getTime() + Days); 
+    document.cookie = key + "=" + value + ";expires="+ exp.toString() + ";path=" + path + ";domain=" + domain;
 }

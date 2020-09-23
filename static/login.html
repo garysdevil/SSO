@@ -32,16 +32,9 @@
             contentType: "application/json",
             data: JSON.stringify({username: username, password: password}),
             success: function (res) {
-                //window.location.href = "www.baidu.com";
                 // console.log(res);
-                if (res.data.token) {
-                    
-                    
-                    // setCookie('token',res.data.token,3600)
-                    var Days = 2 * 24 * 60 * 60 * 1000; 
-                    var exp = new Date(); 
-                    exp.setTime(exp.getTime() + Days); 
-                    document.cookie = "token=" + res.data.token + ";expires="+ exp.toString() + ";path=/" + ";domain=wxblockchain.com";
+                if (res.code === 0) {
+                    // setCookie('token',res.data.token, 3600,"wxblockchain.com","/" )
                     redirectURL = getUrlParam("redirectURL") || 'http://garys.top'
                     alert("登录成功，跳转到回调地址: " + redirectURL);
                     window.location.href = redirectURL + '?token=' + res.data.token

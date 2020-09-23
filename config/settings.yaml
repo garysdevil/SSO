@@ -6,7 +6,9 @@ redis:
 token:
   # 单位为分钟
   expireTime: 110
-  refreshTime: 110
+cookie:
+  domain: XXXXX
+  path: XXXXX
 ldap:
   server: XXXXXX
   port: 389
