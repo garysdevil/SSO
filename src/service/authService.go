@@ -4,6 +4,7 @@ import (
 	// "github.com/rs/xid"
 
 	"context"
+	"fmt"
 	"sso/src/model"
 	"sso/src/utils"
 	"time"
@@ -20,6 +21,17 @@ func LoginService(user model.User) (string, error) {
 		// log.Error(err)
 		return "", err
 	}
+
+	// 验证此用户是否已经有token
+	token, err := utils.RedisClient.Get(ctx, user.Username).Result()
+	if token != "" {
+		return token, nil
+	}
+	if err.Error() != "redis: nil" {
+		return "", err
+	}
+
+	// 生成新的token
 	roles, err := user.GetRolesByUser(user)
 	if err != nil {
 		return "", err
@@ -28,32 +40,47 @@ func LoginService(user model.User) (string, error) {
 	for i, role := range roles {
 		roleidarr[i] = role.RoleID
 	}
-	token, err := utils.JwtEncode(user.Username, roleidarr)
-	return token, err
+	token, err = utils.JwtEncode(user.Username, roleidarr)
+	if err != nil {
+		return "", err
+	}
+	_, err = utils.RedisClient.Set(ctx, user.Username, token, time.Minute*viper.GetDuration("token.expireTime")).Result()
+	if err != nil {
+		return "", err
+	}
+	return token, nil
 
 }
 
 // 验证token是否有效, 有效则返回nil
 func CheckJwtService(token string) error {
-	// secret, err := utils.RedisClient().Get(token).Result()
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	panic(err)
-	// }
-	if result, err := utils.RedisClient.Exists(ctx, token).Result(); err != nil {
-		log.Info(err)
-	} else {
-		if result == 1 {
-			return nil
-		}
+	result, err := utils.RedisClient.Exists(ctx, token).Result()
+	if err != nil {
+		return err
 	}
 
-	username, err := utils.JwtDecode(viper.GetString("token.secret"), token)
+	if result != 1 {
+		return fmt.Errorf("redis: token为空; result=" + string(result))
+	}
 
-	if username != "" {
+	// username, err := utils.JwtDecode(viper.GetString("token.secret"), token)
+
+	return nil
+}
+
+func LogoutService(token string) error {
+
+	_, err := utils.JwtDecode(viper.GetString("token.secret"), token)
+	if err != nil {
+		log.Info("登出：无效的token")
 		return nil
 	}
-	return err
+
+	err = utils.RedisClient.Set(ctx, token, "-", time.Minute*viper.GetDuration("token.expireTime")).Err()
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func LogoutService(token string) error {

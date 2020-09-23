@@ -50,7 +50,7 @@ func LoginHandler(c *gin.Context) {
 	}
 
 	c.SetCookie("token", token, int(time.Minute*viper.GetDuration("token.expireTime")), "/", "wxblockchain.com", false, false)
-	log.Info("登录成功，用户：" + user.Username + "登陆时间:" + time.Now().String())
+	log.Info("登录成功，用户：" + user.Username + ",登陆时间:" + time.Now().String())
 	data := map[string]string{"token": token}
 	SendResponse(c, exception.CustomCode{Code: exception.OK.Code, Message: exception.OK.Message}, data)
 }
