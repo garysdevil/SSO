@@ -35,7 +35,7 @@ vi settings.dev.yaml
 4. go build -o sso
 5. ./sso initdb
 6. ./sso
-## 首次部署运行sso系统--仅包含单点登陆 oss-v1.0.0
+## 首次部署运行sso系统--仅包含单点登陆 tag 为oss-v1.0.0
 1. 部署redis服务
 2. 修改配置文件
 cp settings.yaml settings.dev.yaml
