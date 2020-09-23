@@ -19,7 +19,7 @@ import (
 // @Accept  json
 // @Produce  json
 // @Param user body schema.LoginUser true "login"
-// @Success 200 {object} Response "{"code":0,"data":{},"msg":"success"}"
+// @Success 200 {object} Response "{"code":0,"data":{"token":"string"},"msg":"success"}"
 // @Router /v1/sso/login [post]
 func LoginHandler(c *gin.Context) {
 	// w := c.Writer
@@ -60,7 +60,7 @@ func LoginHandler(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param user body schema.Token true "token"
-// @Success 200 {object} Response "{"code":0,"data":{},"msg":"success"}"
+// @Success 200 {object} Response "{"code":0,"data":{username:"string"},"msg":"success"}"
 // @Router /v1/sso/check [post]
 func CheckJwtHandler(c *gin.Context) {
 	var token schema.Token

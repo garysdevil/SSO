@@ -116,7 +116,7 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{\"code\":0,\"data\":{},\"msg\":\"success\"}",
+                        "description": "{\"code\":0,\"data\":{username:\"string\"},\"msg\":\"success\"}",
                         "schema": {
                             "$ref": "#/definitions/handler.Response"
                         }
@@ -149,7 +149,7 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{\"code\":0,\"data\":{},\"msg\":\"success\"}",
+                        "description": "{\"code\":0,\"data\":{\"token\":\"string\"},\"msg\":\"success\"}",
                         "schema": {
                             "$ref": "#/definitions/handler.Response"
                         }
