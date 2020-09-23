@@ -81,7 +81,7 @@ func RefreshToken(token string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
+	// 生成新的token
 	token, err = utils.JwtEncode(username, roleidarr)
 
 	return token, err
