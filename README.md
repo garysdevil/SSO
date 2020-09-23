@@ -26,7 +26,7 @@ go build -o sso
 6. 启动服务端
 ./sso
 
-## 首次部署运行sso系统
+## 首次部署运行sso系统--单点登陆和权限管理
 1. 部署mysql数据库服务，redis服务
 2. 创建数据库sso
 3. 修改配置文件
@@ -34,6 +34,13 @@ cp settings.yaml settings.dev.yaml
 vi settings.dev.yaml
 4. go build -o sso
 5. ./sso initdb
+6. ./sso
+## 首次部署运行sso系统--仅包含单点登陆 oss-v1.0.0
+1. 部署redis服务
+2. 修改配置文件
+cp settings.yaml settings.dev.yaml
+vi settings.dev.yaml
+4. go build -o sso
 6. ./sso
 
 ## 与一个系统对接

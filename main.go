@@ -5,7 +5,7 @@ import (
 	"os"
 	"sso/cmd"
 
-	"sso/src/model"
+	// "sso/src/model"
 
 	"sso/src/utils"
 )
@@ -14,7 +14,7 @@ func initAll() {
 	if err := cmd.InitConfig(""); err != nil {
 		panic(err)
 	}
-	model.InitDB()
+	// model.InitDB()
 
 	utils.InitRedisClient()
 }

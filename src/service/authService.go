@@ -21,14 +21,14 @@ func LoginService(user model.User) (string, error) {
 		// log.Error(err)
 		return "", err
 	}
-	roles, err := user.GetRolesByUser(user)
-	if err != nil {
-		return "", err
-	}
+	// roles, err := user.GetRolesByUser(user)
+	// if err != nil {
+	// 	return "", err
+	// }
 	var roleidarr []string
-	for i, role := range roles {
-		roleidarr[i] = role.RoleID
-	}
+	// for i, role := range roles {
+	// 	roleidarr[i] = role.RoleID
+	// }
 
 	token, err := utils.JwtEncode(user.Username, roleidarr)
 	return token, err
