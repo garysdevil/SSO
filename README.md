@@ -49,7 +49,8 @@ git clone https://github.com/garysdevil/bootstrap-4-login-page
 
 ## 与一个系统对接
 1. 登入
-  - 业务系统设置未登入过则跳转到 http://sso.wxblockchain.com/v1/sso/static/login.html?redirectURL=登入成功跳转页面的URI
+  - 业务系统设置未登入过则跳转到 http://sso.wxblockchain.com/v1/sso/static2/login.html?redirectURL=登入成功跳转页面的URI   旧的
+  - 业务系统设置未登入过则跳转到 http://sso.wxblockchain.com/v1/sso/static/index.html?redirectURL=登入成功跳转页面的URI     新的
   - 单点登入系统，用户登入成功则 在 wxblockchain.com 域名下设置cookie tokenString="" 和 重定向到 redirectURL
 
 2. 登出
