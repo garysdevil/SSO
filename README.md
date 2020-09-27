@@ -40,8 +40,12 @@ vi settings.dev.yaml
 2. 修改配置文件
 cp settings.yaml settings.dev.yaml
 vi settings.dev.yaml
+3. 获取前端页面 
+cd static
+git clone https://github.com/garysdevil/bootstrap-4-login-page
 4. go build -o sso
 6. ./sso
+
 
 ## 与一个系统对接
 1. 登入

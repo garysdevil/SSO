@@ -10,10 +10,12 @@ import (
 )
 
 func Router(router *gin.Engine) {
+
 	a := router.Group("/v1/sso/")
 	{
 		a.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-		a.Static("/static", "./static")
+		a.Static("/static2", "./static")
+		a.Static("/static", "./static/bootstrap-4-login-page")
 
 		a.POST("/login", handler.LoginHandler)
 		a.POST("/check", handler.CheckJwtHandler)
